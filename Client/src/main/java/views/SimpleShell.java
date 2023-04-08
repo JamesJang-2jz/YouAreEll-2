@@ -63,19 +63,17 @@ public class SimpleShell {
                         System.out.println((index++) + " " + s);
                     continue;
                 }
-
                 // Specific Commands.
-
                 // ids
                 if (list.contains("ids")) {
-                    String results = webber.get_ids();
+                    String results = urll.get_ids();
                     SimpleShell.prettyPrint(results);
                     continue;
                 }
 
                 // messages
                 if (list.contains("messages")) {
-                    String results = webber.get_messages();
+                    String results = urll.get_messages();
                     SimpleShell.prettyPrint(results);
                     continue;
                 }
@@ -107,12 +105,9 @@ public class SimpleShell {
                 // while ((line = br.readLine()) != null)
                 //     System.out.println(line);
                 // br.close();
-
-
             }
-
             //catch ioexception, output appropriate message, resume waiting for input
-            catch (IOException e) {
+            catch (/*IO*/ Exception e) {
                 System.out.println("Input Error, Please try again!");
             }
             // So what, do you suppose, is the meaning of this comment?
@@ -123,7 +118,6 @@ public class SimpleShell {
              * 4. obtain the output stream
              * 5. output the contents returned by the command
              */
-
         }
 
 

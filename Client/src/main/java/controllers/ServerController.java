@@ -1,30 +1,36 @@
-import spiffyUrlManipulator
+package controllers;//import spiffyUrlManipulator
 
-public class ServerController() {
+import models.Id;
+
+public class ServerController {
     private String rootURL = "http://zipcode.rocks:8085";
 
-    private ServerController svr = new ServerController();
-
+    private static ServerController svr = new ServerController();
+    // was not static before ^^
+    private JsonString json;
     private ServerController() {}
 
-    public static shared() {
+    public static ServerController shared() {
         return svr;
     }
 
     public JsonString idGet() {
+        return json;
         // url -> /ids/
         // send the server a get with url
         // return json from server
     }
-    public JsonString idPost(Id) {
+    public JsonString idPost(Id input) {
         // url -> /ids/
         // create json from Id
         // request
         // reply
         // return json
+        return json;
     }
-    public JsonString idPut(Id) {
+    public JsonString idPut(Id input) {
         // url -> /ids/
+        return json;
     }
 
 
