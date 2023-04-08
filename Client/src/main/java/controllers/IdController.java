@@ -19,7 +19,6 @@ public class IdController {
     public Id postId(Id id) {
         // create json from id
         JSONObject json = new JSONObject();
-        json.
         // call server, get json result Or error
         // result json to Id obj
 
