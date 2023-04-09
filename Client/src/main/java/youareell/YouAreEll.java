@@ -47,7 +47,7 @@ public class YouAreEll {
         StringBuilder sb = new StringBuilder();
         URL url = new URL(rootURL + page);
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-        connection.setRequestMethod("GET");
+        connection.setRequestMethod(method);
         int responseCode = connection.getResponseCode();
         System.out.println("GET response Code :: " + responseCode);
         if (responseCode == HttpURLConnection.HTTP_OK) {

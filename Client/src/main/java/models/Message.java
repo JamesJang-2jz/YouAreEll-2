@@ -1,6 +1,10 @@
 package models;
 
-/* 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
+
+/*
  * POJO for an Message object
  *
  *   {
@@ -20,6 +24,21 @@ public class Message implements Comparable {
     private String fromId = "";
     private String timestamp = "";
     private String seqId = "";
+
+    @JsonCreator
+    public Message(
+            @JsonProperty("sequence") String seqId,
+            @JsonProperty("timestamp") String timestamp,
+            @JsonProperty("fromid") String fromId,
+            @JsonProperty("toid") String toId,
+            @JsonProperty("message") String message)
+    {
+            this.message = message;
+            this.toId = toId;
+            this.fromId = fromId;
+            this.timestamp = timestamp;
+            this.seqId = seqId;
+    }
 
     public Message (String message, String fromId, String toId) {
         this.message = message;

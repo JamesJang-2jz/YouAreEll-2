@@ -7,9 +7,11 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import controllers.IdController;
 import controllers.MessageController;
 import models.Id;
+import models.Message;
 import youareell.YouAreEll;
 
 // Simple Shell is a Console view for youareell.YouAreEll.
@@ -75,13 +77,22 @@ public class SimpleShell {
                 }
 
                 // messages
-                if (list.contains("messages")) {
+                if (list.contains("messages") && list.size() == 1) {
                     String results = urll.get_messages();
-                    SimpleShell.prettyPrint(results);
+                    printMessage(results);
                     continue;
                 }
-                // you need to add a bunch more.
+                if (list.contains("messages") && list.size() > 1){
+                    String results = urll.get_messages();
+                    MessageController msgControl = new MessageController();
+                    ArrayList<Message> msgList = msgControl.getMessages(results);
+                    // list.get(1) is username to search for
+                    // 
+                    continue;
+                }
 
+
+                // you need to add a bunch more.
                 //!! command returns the last command in history
                 if (list.get(list.size() - 1).equals("!!")) {
                     pb.command(history.get(history.size() - 2));
@@ -122,8 +133,17 @@ public class SimpleShell {
              * 5. output the contents returned by the command
              */
         }
-
-
+    }
+    public static void printMessage(String input) throws JsonProcessingException {
+        MessageController msgControl = new MessageController();
+        ArrayList<Message> msgList = msgControl.getMessages(input);
+        int count = 0;
+        for (Message msg : msgList) {
+            if (count < 20){
+                SimpleShell.prettyPrint(msg.toString());
+                count++;
+            }
+        }
     }
 
 }
