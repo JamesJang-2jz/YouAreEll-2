@@ -9,6 +9,7 @@ import java.util.List;
 
 import controllers.IdController;
 import controllers.MessageController;
+import models.Id;
 import youareell.YouAreEll;
 
 // Simple Shell is a Console view for youareell.YouAreEll.
@@ -65,7 +66,11 @@ public class SimpleShell {
                 // ids
                 if (list.contains("ids")) {
                     String results = urll.get_ids();
-                    SimpleShell.prettyPrint(results);
+                    IdController idController = new IdController();
+                    ArrayList<Id> idList = idController.getIds(results);
+                    for (Id id: idList) {
+                        SimpleShell.prettyPrint(id.toString());
+                    }
                     continue;
                 }
 
