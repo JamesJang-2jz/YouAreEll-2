@@ -4,6 +4,7 @@ package models;
  * POJO for an Id object
  */
 public class Id {
+
     private String uid = "";
     private String name = "";
     private String github = "";

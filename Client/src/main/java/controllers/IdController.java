@@ -1,5 +1,6 @@
 package controllers;
 
+import java.net.http.HttpClient;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,6 +14,7 @@ public class IdController {
     Id myId;
 
     public ArrayList<Id> getIds() {
+        HttpClient client;
         return null;
     }
 
