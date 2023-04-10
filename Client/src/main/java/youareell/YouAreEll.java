@@ -9,10 +9,7 @@ import models.Id;
 import views.IdTextView;
 import views.SimpleShell;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -22,7 +19,7 @@ import java.util.Objects;
 
 public class YouAreEll {
     TransactionController tt;
-    private String rootURL = "http://zipcode.rocks:8085";
+    private static String rootURL = "http://zipcode.rocks:8085";
     List<Id> ids;
 
     public YouAreEll (TransactionController t) {
@@ -43,11 +40,21 @@ public class YouAreEll {
         System.out.println(urlhandler.MakeURLCall("/messages", "GET", ""));
     }
 
-    private String MakeURLCall(String page, String method, String s1) throws IOException {
+    private static String MakeURLCall(String page, String method, String jsonString) throws IOException {
         StringBuilder sb = new StringBuilder();
         URL url = new URL(rootURL + page);
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
         connection.setRequestMethod(method);
+        if (method == "POST"){
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+            try(OutputStream os = connection.getOutputStream()){
+                byte[] input = jsonString.getBytes("utf-8");
+                os.write(input, 0, input.length);
+            }
+
+        }
         int responseCode = connection.getResponseCode();
         System.out.println("GET response Code :: " + responseCode);
         if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -64,15 +71,17 @@ public class YouAreEll {
     public String get_ids() throws IOException {
         return MakeURLCall("/ids", "GET", "");
     }
-    public String get_messages() throws IOException {
+    public static String get_messages() throws IOException {
         return MakeURLCall("/messages", "GET", "");
     }
-    public String post_id() throws IOException {
+    public static String post_id(String page, String json) throws IOException {
+        return MakeURLCall(page, "POST", json);
+    }
+    public static String post_messages() throws IOException {
         return MakeURLCall("/messages", "POST", "");
     }
-    public String post_messages() throws IOException {
-        return MakeURLCall("/messages", "POST", "");
+    public static String putGithub(String userid) throws IOException {
+        return MakeURLCall("ids", "PUT", "");
     }
-
 
 }

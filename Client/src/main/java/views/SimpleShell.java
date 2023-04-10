@@ -5,11 +5,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Objects;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import controllers.IdController;
 import controllers.MessageController;
+import controllers.TransactionController;
 import models.Id;
 import models.Message;
 import youareell.YouAreEll;
@@ -66,13 +69,26 @@ public class SimpleShell {
                 }
                 // Specific Commands.
                 // ids
-                if (list.contains("ids")) {
+                if (list.contains("ids") && list.size() == 1) {
                     String results = urll.get_ids();
                     IdController idController = new IdController();
                     ArrayList<Id> idList = idController.getIds(results);
                     for (Id id: idList) {
                         SimpleShell.prettyPrint(id.toString());
                     }
+                    continue;
+                }
+                if (list.contains("ids") && list.size() > 1){
+                    String results = urll.get_ids();
+                    TransactionController tc= new TransactionController(new MessageController(), new IdController());
+                    IdController idControl = new IdController();
+                    ArrayList<Id> idList = idControl.getIds(results);
+                    for (Id id : idList) {
+                        if (Objects.equals(id.getGithub(), list.get(2))){
+                            tc.putId(list.get(1), list.get(2));
+                        }
+                    }
+                    tc.postId(list.get(1), list.get(2));
                     continue;
                 }
 
@@ -87,7 +103,7 @@ public class SimpleShell {
                     MessageController msgControl = new MessageController();
                     ArrayList<Message> msgList = msgControl.getMessages(results);
                     // list.get(1) is username to search for
-                    // 
+                    //
                     continue;
                 }
 

@@ -1,18 +1,18 @@
 package controllers;
 
+import java.io.IOException;
 import java.net.http.HttpClient;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import models.Id;
-import org.json.simple.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
 
-// makes map of
+import static youareell.YouAreEll.post_id;
+
 public class IdController {
     private HashMap<String, Id> allIds;
     Id myId;
@@ -25,9 +25,16 @@ public class IdController {
         return idList;
     }
 
-    public Id postId(Id id) {
+    public Id postId(Id id) throws IOException {
         // create json from id
-        JSONObject json = new JSONObject();
+        try {
+            System.out.println("Checkpoint 1");
+            String jsonString =  objectMapper.writeValueAsString(id);
+            System.out.println("Checkpoint 2");
+            post_id("/ids", jsonString);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
         // call server, get json result Or error
         // result json to Id obj
 
